@@ -17,6 +17,7 @@ ENV MUSAN16K_PATH="${DATA_PATH}/musan_16k"
 ENV FMA_PATH="${DATA_PATH}/fma"
 ENV FMA16K_PATH="${DATA_PATH}/fma_16k"
 ENV FEATURES_PATH="${DATA_PATH}/features"
+ENV PIPER_SAMPLE_GENERATOR_PATH="${ROOT_PATH}/piper-sample-generator"
 ENV CONFIG_FILE="${ROOT_PATH}/configs/model.yaml"
 ENV RUNTIME_CONFIG_FILE="${ROOT_PATH}/configs/model.runtime.yaml"
 ENV POSITIVES_PATH="${DATA_PATH}/positives"
@@ -59,6 +60,9 @@ RUN pip install torchcodec --index-url https://download.pytorch.org/whl/cu126
 WORKDIR /workspace
 RUN git clone https://github.com/dscripka/openWakeWord.git
 RUN pip install -e openWakeWord
+
+# ---- piper sample generator ----
+RUN git clone https://github.com/rhasspy/piper-sample-generator.git "$PIPER_SAMPLE_GENERATOR_PATH"
 
 # ---- runtime paths ----
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH

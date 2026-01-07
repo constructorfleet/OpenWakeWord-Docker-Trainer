@@ -34,6 +34,7 @@ def main():
         os.environ["RIRS_PATH"],
     ]
     cfg["output_dir"] = os.environ["OUTPUT_DIR"]
+    cfg["piper_sample_generator_path"] = os.environ["PIPER_SAMPLE_GENERATOR_PATH"]
 
     with open(os.environ["RUNTIME_CONFIG_FILE"], "w") as f:
         yaml.safe_dump(cfg, f)
