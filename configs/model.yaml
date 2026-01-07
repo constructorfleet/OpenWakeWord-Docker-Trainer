@@ -1,0 +1,48 @@
+augmentation_batch_size: 32
+augmentation_rounds: 2
+background_paths:
+  - ./audioset_16k
+  - ./fsd50k_16k
+  - ./musan_16k
+  - ./fma_16k
+
+background_paths_duplication_rate:
+  - 1
+  - 2
+  - 2
+  - 1
+batch_n_per_class:
+  ACAV100M_sample: 768
+  adversarial_negative: 200
+  positive: 80
+false_positive_validation_data_path: validation_set_features.npy
+feature_data_files:
+  ACAV100M_sample: openwakeword_features_ACAV100M_2000_hrs_16bit.npy
+layer_size: 64
+max_negative_weight: 4000
+model_name: hey eddie
+model_type: dnn
+n_samples: 200000
+n_samples_val: 20000
+output_dir: ./hey_eddie_v2
+piper_sample_generator_path: ./piper-sample-generator
+rir_paths:
+- ./mit_rirs
+steps: 1000000
+target_accuracy: 0.95
+target_false_positives_per_hour: 0.01
+target_phrase:
+  - hey eddie
+positive_paths:
+  - positives_teagan
+custom_negative_phrases:
+  - "hey"
+  - "hey ed"
+  - "hey andy"
+  - "hey daddy"
+  - "hey ready"
+  - "hey heavy"
+  - "heady"
+  - "eddy"
+target_recall: 0.8
+tts_batch_size: 50
