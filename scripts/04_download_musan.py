@@ -4,6 +4,7 @@ import time
 from pathlib import Path
 import datasets, scipy.io.wavfile
 from tqdm import tqdm
+from scripts.utils import decode_audio_to_16k_int16, infer_filename
 
 
 logger = logging.getLogger(__name__)
@@ -46,10 +47,12 @@ def main():
     resample_start = time.perf_counter()
     processed = 0
     for row in tqdm(ds, desc="MUSAN → 16k"):
+        pcm, sr = decode_audio_to_16k_int16(row["audio"])
+        name = infer_filename(row)
         scipy.io.wavfile.write(
-            f"{os.environ['MUSAN16K_PATH']}/{Path(row['audio']['path']).stem}.wav",
-            16000,
-            (row["audio"]["array"] * 32767).astype("int16"),
+            f"{os.environ['MUSAN16K_PATH']}/{Path(row).stem}.wav",
+            sr,
+            pcm,
         )
         processed += 1
     logger.info("Processed %d files in %s", processed, _fmt_duration(time.perf_counter() - resample_start))

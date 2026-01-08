@@ -1,16 +1,9 @@
-import os, numpy as np, datasets, scipy.io.wavfile
+import os
 import logging
-import time
-from tqdm import tqdm
-
+from pathlib import Path
+from utils import get_dataset_as_16k_audio
 
 logger = logging.getLogger(__name__)
-
-def _fmt_duration(seconds: float) -> str:
-    total = int(round(seconds))
-    hours, rem = divmod(total, 3600)
-    minutes, secs = divmod(rem, 60)
-    return f"{hours}:{minutes:02d}:{secs:02d}"
 
 
 def main():
@@ -22,24 +15,14 @@ def main():
     out = os.environ["RIRS_PATH"]
     logger.info("Downloading RIRs into %s", out)
     os.makedirs(out, exist_ok=True)
-
-    ds = datasets.load_dataset(
-        "davidscripka/MIT_environmental_impulse_responses",
+    
+    get_dataset_as_16k_audio(
+        dataset_name="davidscripka/MIT_environmental_impulse_responses",
+        display_text="MIT RIRs",
+        data_dir=Path(os.environ["RIRS_PATH"]),
+        logger=logger,
         split="train",
-        streaming=True,
     )
-
-    start = time.perf_counter()
-    count = 0
-    for row in tqdm(ds):
-        name = row["audio"]["path"].split("/")[-1]
-        scipy.io.wavfile.write(
-            f"{out}/{name}",
-            16000,
-            (row["audio"]["array"] * 32767).astype("int16"),
-        )
-        count += 1
-    logger.info("Downloaded %d RIR files in %s", count, _fmt_duration(time.perf_counter() - start))
 
 
 if __name__ == "__main__":
