@@ -18,7 +18,7 @@ onnx_tf==1.10.0
 pronouncing==0.2.0
 deep-phonemizer==0.0.19
 
-datasets==4.4.2
+datasets==5.0.1
 ml-dtypes==0.5.4
 numpy==2.3.5
 scipy
